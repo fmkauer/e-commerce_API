@@ -1,0 +1,31 @@
+# Git
+.git
+
+
+# Python
+__pycache__/
+*/__pycache__/
+.pytest_cache/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv
+env/
+venv/
+ENV/
+dist/
+build/
+*.egg-info/
+poetry.lock
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Project specific
+tests/
+Plan.md
+*.log 

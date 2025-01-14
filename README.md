@@ -77,6 +77,17 @@ Once the server is running, you can access:
 - Swagger UI documentation: `http://localhost:8000/docs`
 - ReDoc documentation: `http://localhost:8000/redoc`
 
+### Using Swagger UI Authorization
+
+1. Click on the "Authorize" button (🔓) at the top right of the Swagger UI page
+2. In the login form:
+   - Enter any of the mock user credentials (e.g., username: `johndoe`, password: `password123`)
+   - Click "Authorize"
+3. The system will automatically:
+   - Call the login endpoint
+   - Include the JWT token in all subsequent API requests
+4. You can now test any endpoint directly from the Swagger UI
+
 ## Available Endpoints
 
 ### Authentication
@@ -97,19 +108,26 @@ The API comes with three pre-configured users:
    - Password: admin123
 
 2. Regular User 1
-   - Username: user1
-   - Password: user123
+   - Username: johndoe
+   - Password: password123
 
 3. Regular User 2
-   - Username: user2
-   - Password: user456
+   - Username: sarahs
+   - Password: userpass456
 
-## Mock Product
+## Mock Products
 
-A single product is available for testing:
-- ID: 1
-- Name: Classic White T-Shirt
-- Price: $19.99
+The API comes with several products. Here are two examples:
+
+1. Classic White T-Shirt
+   - ID: 1
+   - Price: $19.99
+   - Description: A comfortable cotton t-shirt perfect for everyday wear
+
+2. Wireless Headphones
+   - ID: 5
+   - Price: $129.99
+   - Description: Bluetooth headphones with noise cancellation and 20-hour battery life
 
 ## Example Usage
 

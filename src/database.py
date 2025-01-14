@@ -1,7 +1,7 @@
 from datetime import UTC, datetime
 from typing import Dict, List, Optional
 
-from .data import LAST_ORDER_ID, MOCK_ORDERS, MOCK_PRODUCT, MOCK_USERS
+from .data import LAST_ORDER_ID, MOCK_ORDERS, MOCK_PRODUCTS, MOCK_USERS
 from .models import Order, Product, User
 from .schemas import OrderCreate, ProductCreate, UserInDB
 
@@ -24,7 +24,8 @@ def init_db():
         orders_db[order["id"]] = order
 
     # Initialize products
-    products_db[MOCK_PRODUCT["id"]] = MOCK_PRODUCT
+    for product in MOCK_PRODUCTS:
+        products_db[product["id"]] = product
 
 
 # User operations

@@ -113,33 +113,47 @@ A single product is available for testing:
 
 ## Example Usage
 
-1. Get an access token:
+1. First, get a JWT token by logging in:
    ```bash
    curl -X POST "http://localhost:8000/login" \
    -H "Content-Type: application/x-www-form-urlencoded" \
    -d "username=user1&password=user123"
    ```
 
-2. Create a new order:
-   ```bash
-   curl -X POST "http://localhost:8000/orders" \
-   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
-   -H "Content-Type: application/json" \
-   -d '{"product_id": 1, "quantity": 2}'
+   This will return a response like:
+   ```json
+   {
+     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+     "token_type": "bearer"
+   }
    ```
 
-3. View all orders:
+2. Use the JWT token from the response to create a new order:
+   ```bash
+   # Replace the JWT_TOKEN with the access_token from the login response
+   export JWT_TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+   curl -X POST "http://localhost:8000/orders" \
+   -H "Authorization: Bearer $JWT_TOKEN" \
+   -H "Content-Type: application/json" \
+   -d '{
+     "items": [
+       {
+         "product_id": 1,
+         "quantity": 2
+       }
+     ]
+   }'
+   ```
+
+3. View all orders using the same JWT token:
    ```bash
    curl "http://localhost:8000/orders" \
-   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+   -H "Authorization: Bearer $JWT_TOKEN"
    ```
 
-## Development
-
-The project uses an in-memory database for simplicity. In a production environment, you would want to:
-1. Use a proper database (e.g., PostgreSQL)
-2. Implement proper secret management
-3. Add input validation and rate limiting
-4. Add proper error handling and logging
-5. Implement proper password hashing
-6. Add more comprehensive tests
+4. Get details of a specific product:
+   ```bash
+   curl "http://localhost:8000/products/1" \
+   -H "Authorization: Bearer $JWT_TOKEN"
+   ```

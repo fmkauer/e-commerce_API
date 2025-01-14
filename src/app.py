@@ -23,6 +23,7 @@ from .database import (
     get_product_by_id,
     init_db,
     update_order_status,
+    delete_product_by_id,
 )
 from .models import Order, Product, User
 from .schemas import (
@@ -198,3 +199,24 @@ async def cancel_order(
     if not updated_order:
         raise HTTPException(status_code=500, detail="Failed to update order status")
     return updated_order
+
+@app.delete("/products/{product_id}", response_model=ProductResponse, tags=["Products"])
+async def delete_product(
+    product_id: int, current_user: UserInDB = Depends(get_current_active_user)
+):
+    """
+    Delete a specific product by ID.
+
+    Can only be done by admin users. And can't delete products that have been ordered.
+    """
+    product = get_product_by_id(product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    all_orders = get_all_orders()
+    for order in all_orders:
+        if product_id in [item.id for item in order.items]:
+            raise HTTPException(status_code=400, detail="Cannot delete a product that has been ordered")
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized to delete this product")
+    delete_product_by_id(product_id)
+    return product

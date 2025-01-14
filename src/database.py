@@ -130,3 +130,7 @@ def add_product_details(order: Order) -> Order:
         products.append(product)
     order.products = products
     return order
+
+def delete_product_by_id(product_id: int) -> None:
+    if product_id in products_db:
+        del products_db[product_id]

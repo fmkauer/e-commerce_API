@@ -2,36 +2,36 @@ from contextlib import asynccontextmanager
 from datetime import timedelta
 from typing import List
 
-from fastapi import FastAPI, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordRequestForm
 
-from .models import Order, User, Product
-from .schemas import (
-    OrderCreate,
-    OrderResponse,
-    Token,
-    UserInDB,
-    ProductCreate,
-    ProductResponse,
-)
 from .auth import (
     ACCESS_TOKEN_EXPIRE_MINUTES,
     create_access_token,
     get_current_active_user,
-    verify_password,
     get_user_by_username,
+    verify_password,
 )
 from .database import (
-    init_db,
-    get_orders_by_user,
-    get_order_by_id,
     create_order,
-    update_order_status,
-    get_all_products,
-    get_product_by_id,
     create_product,
     get_all_orders,
+    get_all_products,
+    get_order_by_id,
+    get_orders_by_user,
+    get_product_by_id,
+    init_db,
+    update_order_status,
+)
+from .models import Order, Product, User
+from .schemas import (
+    OrderCreate,
+    OrderResponse,
+    ProductCreate,
+    ProductResponse,
+    Token,
+    UserInDB,
 )
 
 

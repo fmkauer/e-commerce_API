@@ -29,3 +29,4 @@ poetry.lock
 tests/
 Plan.md
 *.log 
+.ruff_cache/

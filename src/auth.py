@@ -1,11 +1,13 @@
-from datetime import datetime, timedelta, UTC
+from datetime import UTC, datetime, timedelta
 from typing import Optional
-from jose import JWTError, jwt
-from passlib.context import CryptContext
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from .schemas import TokenData, UserInDB
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+
 from .database import get_user_by_username
+from .schemas import TokenData, UserInDB
 
 # Security configuration
 SECRET_KEY = "your-secret-key-keep-it-secret"  # In production, use proper secret management

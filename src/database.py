@@ -1,8 +1,9 @@
-from typing import Optional, List, Dict
-from datetime import datetime, UTC
-from .models import User, Order, Product
-from .schemas import UserInDB, OrderCreate, ProductCreate
-from .data import MOCK_USERS, MOCK_ORDERS, MOCK_PRODUCT, LAST_ORDER_ID
+from datetime import UTC, datetime
+from typing import Dict, List, Optional
+
+from .data import LAST_ORDER_ID, MOCK_ORDERS, MOCK_PRODUCT, MOCK_USERS
+from .models import Order, Product, User
+from .schemas import OrderCreate, ProductCreate, UserInDB
 
 # In-memory database
 users_db: Dict[int, dict] = {}

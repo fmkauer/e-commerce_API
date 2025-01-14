@@ -18,7 +18,41 @@ A mock e-commerce API built with FastAPI that simulates a simple order managemen
 ## Installation
 
 1. Clone the repository
-2. Install dependencies:
+2. Create a virtual environment:
+
+   On Unix-based systems:
+   ```bash
+   python3 -m venv .venv
+   ```
+
+   On Windows:
+   ```bash
+   python -m venv .venv
+   ```
+
+3. Activate the virtual environment:
+
+   On Unix-based systems:
+   ```bash
+   source .venv/bin/activate
+   ```
+
+   On Windows:
+   ```bash
+   .venv\Scripts\activate
+   ```
+
+4. Upgrade pip:
+   ```bash
+   pip install --upgrade pip
+   ```
+
+5. Install Poetry:
+   ```bash
+   pip install poetry
+   ```
+
+3. Install project dependencies using Poetry:
    ```bash
    poetry install
    ```

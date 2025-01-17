@@ -175,3 +175,8 @@ The API comes with several products. Here are two examples:
    curl "http://localhost:8000/products/1" \
    -H "Authorization: Bearer $JWT_TOKEN"
    ```
+
+## Candidate Solution
+
+Place your solution code in the `candidate_solution/` directory.
+

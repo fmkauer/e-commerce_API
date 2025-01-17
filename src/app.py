@@ -140,6 +140,15 @@ async def read_orders(current_user: UserInDB = Depends(get_current_active_user))
     else:
         return get_all_orders()
 
+@app.get("/user_orders", response_model=List[OrderResponse], tags=["Orders"])
+async def read_user_orders(user_id: int, current_user: UserInDB = Depends(get_current_active_user)):
+    """
+    Get all orders for the a specific user. Admin only.
+    """
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized to access this order")
+    return get_orders_by_user(user_id)
+
 
 @app.post("/orders", response_model=OrderResponse, tags=["Orders"])
 async def create_new_order(

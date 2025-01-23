@@ -155,30 +155,6 @@ async def read_user_orders(
     return get_orders_by_user(user_id)
 
 
-@app.post("/orders", response_model=OrderResponse, tags=["Orders"])
-async def create_new_order(
-    order: OrderCreate, current_user: UserInDB = Depends(get_current_active_user)
-):
-    """
-    Create a new order for the current user.
-
-    - **product_id**: ID of the product to order
-    - **quantity**: Number of items to order (must be greater than 0)
-    """
-    return create_order(current_user.id, order)
-
-
-@app.post("/orders", response_model=OrderResponse, tags=["Orders"])
-async def create_order(
-    user_id: int,
-    order: OrderCreate,
-    current_user: UserInDB = Depends(get_current_active_user),
-):
-    if current_user.role != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized to create an order")
-    return create_order(user_id, order)
-
-
 @app.get("/orders/{order_id}", response_model=OrderResponse, tags=["Orders"])
 async def read_order(
     order_id: int, current_user: UserInDB = Depends(get_current_active_user)
@@ -198,6 +174,30 @@ async def read_order(
             status_code=403, detail="Not authorized to access this order"
         )
     return order
+
+
+@app.post("/orders", response_model=OrderResponse, tags=["Orders"])
+async def create_new_order(
+    order: OrderCreate, current_user: UserInDB = Depends(get_current_active_user)
+):
+    """
+    Create a new order for the current user.
+
+    - **product_id**: ID of the product to order
+    - **quantity**: Number of items to order (must be greater than 0)
+    """
+    return create_order(current_user.id, order)
+
+
+@app.post("/create_order", response_model=OrderResponse, tags=["Orders"])
+async def create_order(
+    user_id: int,
+    order: OrderCreate,
+    current_user: UserInDB = Depends(get_current_active_user),
+):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized to create an order")
+    return create_order(user_id, order)
 
 
 @app.post("/orders/{order_id}/cancel", response_model=OrderResponse, tags=["Orders"])

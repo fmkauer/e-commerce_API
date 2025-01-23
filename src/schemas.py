@@ -65,4 +65,5 @@ class OrderResponse(BaseModel):
     status: OrderStatus
     created_at: datetime
     updated_at: Optional[datetime] = None
+    delivery_date: Optional[datetime] = None
     products: Optional[List[ProductResponse]] = None

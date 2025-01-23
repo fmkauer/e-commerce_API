@@ -131,7 +131,8 @@ MOCK_ORDERS = [
         "total_price": 69.97,  # (19.99 * 2) + 29.99
         "status": OrderStatus.DELIVERED,
         "created_at": now - timedelta(days=30),
-        "updated_at": now - timedelta(days=25)
+        "updated_at": now - timedelta(days=25),
+        "delivery_date": (now - timedelta(days=23))
     },
     {
         "id": 2,
@@ -143,7 +144,8 @@ MOCK_ORDERS = [
         "total_price": 329.98,  # 129.99 + 199.99
         "status": OrderStatus.SHIPPED,
         "created_at": now - timedelta(days=15),
-        "updated_at": now - timedelta(days=13)
+        "updated_at": now - timedelta(days=13),
+        "delivery_date": (now - timedelta(days=8))
     },
     {
         "id": 3,
@@ -155,7 +157,8 @@ MOCK_ORDERS = [
         "total_price": 139.97,  # (49.99 * 2) + 39.99
         "status": OrderStatus.PENDING,
         "created_at": now - timedelta(days=1),
-        "updated_at": None
+        "updated_at": None,
+        "delivery_date": (now + timedelta(days=6))
     },
     {
         "id": 4,
@@ -167,7 +170,8 @@ MOCK_ORDERS = [
         "total_price": 229.98,  # 149.99 + 79.99
         "status": OrderStatus.PROCESSING,
         "created_at": now - timedelta(days=5),
-        "updated_at": now - timedelta(days=4)
+        "updated_at": now - timedelta(days=4),
+        "delivery_date": (now + timedelta(days=2))
     },
     {
         "id": 5,
@@ -179,7 +183,8 @@ MOCK_ORDERS = [
         "total_price": 149.98,  # 89.99 + 59.99
         "status": OrderStatus.CANCELLED,
         "created_at": now - timedelta(days=10),
-        "updated_at": now - timedelta(days=9)
+        "updated_at": now - timedelta(days=9),
+        "delivery_date": (now - timedelta(days=3))
     },
     {
         "id": 6,
@@ -191,7 +196,8 @@ MOCK_ORDERS = [
         "total_price": 329.98,  # 199.99 + 129.99
         "status": OrderStatus.DELIVERED,
         "created_at": now - timedelta(days=45),
-        "updated_at": now - timedelta(days=40)
+        "updated_at": now - timedelta(days=40),
+        "delivery_date": (now - timedelta(days=45)) + timedelta(days=7)
     },
     {
         "id": 7,
@@ -203,7 +209,8 @@ MOCK_ORDERS = [
         "total_price": 139.95,  # (39.99 * 2) + (19.99 * 3)
         "status": OrderStatus.CANCELLED,
         "created_at": now - timedelta(days=25),
-        "updated_at": now - timedelta(days=20)
+        "updated_at": now - timedelta(days=20),
+        "delivery_date": (now - timedelta(days=18))
     },
     {
         "id": 8,
@@ -215,8 +222,22 @@ MOCK_ORDERS = [
         "total_price": 139.97,  # 79.99 + (29.99 * 2)
         "status": OrderStatus.PROCESSING,
         "created_at": now - timedelta(days=2),
-        "updated_at": now - timedelta(days=1)
+        "updated_at": now - timedelta(days=1),
+        "delivery_date": (now + timedelta(days=5))
+    },
+    {
+        "id": 9,
+        "user_id": 2,  # John Doe
+        "items": [
+            {"id": 3, "quantity": 1},  # Running Shoes
+            {"id": 8, "quantity": 1}   # Sunglasses
+        ],
+        "total_price": 169.98,  # 89.99 + 79.99
+        "status": OrderStatus.PROCESSING,
+        "created_at": now - timedelta(days=10),
+        "updated_at": now - timedelta(days=8),
+        "delivery_date": (now - timedelta(days=3))  # Expected 3 days ago but still processing
     }
 ]
 
-LAST_ORDER_ID = 8  # Updated to reflect the new last order ID 
+LAST_ORDER_ID = 9  # Updated to reflect the new last order ID 

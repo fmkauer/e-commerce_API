@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 from typing import Dict, List, Optional
 
 from .data import LAST_ORDER_ID, MOCK_ORDERS, MOCK_PRODUCTS, MOCK_USERS
@@ -97,6 +97,7 @@ def create_order(user_id: int, order: OrderCreate) -> Order:
         raise ValueError("Product not found")
     
     last_order_id += 1
+    created_at = datetime.now(UTC)
     new_order = {
         "id": last_order_id,
         "user_id": user_id,
@@ -104,8 +105,9 @@ def create_order(user_id: int, order: OrderCreate) -> Order:
         "quantity": order.quantity,
         "total_price": order.quantity * product.price,
         "status": "pending",
-        "created_at": datetime.now(UTC),
-        "updated_at": None
+        "created_at": created_at,
+        "updated_at": None,
+        "delivery_date": created_at + timedelta(days=7)
     }
     
     orders_db[last_order_id] = new_order

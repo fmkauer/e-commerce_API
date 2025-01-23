@@ -10,7 +10,9 @@ from .database import get_user_by_username
 from .schemas import TokenData, UserInDB
 
 # Security configuration
-SECRET_KEY = "your-secret-key-keep-it-secret"  # In production, use proper secret management
+SECRET_KEY = (
+    "your-secret-key-keep-it-secret"  # In production, use proper secret management
+)
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -45,18 +47,20 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> UserInDB:
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        username: str = payload.get("sub")
+        username: str | None = payload.get("sub")
         if username is None:
             raise credentials_exception
         token_data = TokenData(username=username)
     except JWTError:
         raise credentials_exception
-    
+
     user = get_user_by_username(token_data.username)
     if user is None:
         raise credentials_exception
     return user
 
 
-async def get_current_active_user(current_user: UserInDB = Depends(get_current_user)) -> UserInDB:
-    return current_user 
+async def get_current_active_user(
+    current_user: UserInDB = Depends(get_current_user),
+) -> UserInDB:
+    return current_user

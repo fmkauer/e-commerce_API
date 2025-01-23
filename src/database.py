@@ -58,15 +58,15 @@ def get_all_products() -> List[Product]:
 def create_product(product: ProductCreate) -> Product:
     global last_product_id
     last_product_id += 1
-    
+
     # Create and validate the product before storing it
     new_product = Product(
         id=last_product_id,
         name=product.name,
         description=product.description,
-        price=product.price
+        price=product.price,
     )
-    
+
     # If validation passes, store the product
     products_db[last_product_id] = new_product.model_dump()
     return new_product
@@ -90,12 +90,12 @@ def get_order_by_id(order_id: int) -> Optional[Order]:
 
 def create_order(user_id: int, order: OrderCreate) -> Order:
     global last_order_id
-    
+
     # Check if product exists
     product = get_product_by_id(order.product_id)
     if not product:
         raise ValueError("Product not found")
-    
+
     last_order_id += 1
     created_at = datetime.now(UTC)
     new_order = {
@@ -107,9 +107,9 @@ def create_order(user_id: int, order: OrderCreate) -> Order:
         "status": "pending",
         "created_at": created_at,
         "updated_at": None,
-        "delivery_date": created_at + timedelta(days=7)
+        "delivery_date": created_at + timedelta(days=7),
     }
-    
+
     orders_db[last_order_id] = new_order
     return Order(**new_order)
 
@@ -126,6 +126,7 @@ def update_order_status(order_id: int, status: str) -> Optional[Order]:
 def get_all_orders() -> List[Order]:
     return [add_product_details(Order(**order)) for order in orders_db.values()]
 
+
 def add_product_details(order: Order) -> Order:
     products = []
     for item in order.items:
@@ -133,6 +134,7 @@ def add_product_details(order: Order) -> Order:
         products.append(product)
     order.products = products
     return order
+
 
 def delete_product_by_id(product_id: int) -> None:
     if product_id in products_db:

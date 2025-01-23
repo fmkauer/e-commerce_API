@@ -52,10 +52,11 @@ class OrderItem(BaseModel):
 
 class OrderBase(BaseModel):
     items: List[OrderItem]  # Changed from single product to list of items
-    
+
 
 class OrderCreate(OrderBase):
     pass
+
 
 class OrderResponse(BaseModel):
     id: int

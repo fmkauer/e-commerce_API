@@ -122,7 +122,7 @@ async def create_new_product(
     if current_user.role != "admin":
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only admins can create products"
+            detail="Only admins can create products",
         )
     return create_product(product)
 
@@ -140,13 +140,18 @@ async def read_orders(current_user: UserInDB = Depends(get_current_active_user))
     else:
         return get_all_orders()
 
+
 @app.get("/user_orders", response_model=List[OrderResponse], tags=["Orders"])
-async def read_user_orders(user_id: int, current_user: UserInDB = Depends(get_current_active_user)):
+async def read_user_orders(
+    user_id: int, current_user: UserInDB = Depends(get_current_active_user)
+):
     """
     Get all orders for the a specific user. Admin only.
     """
     if current_user.role != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized to access this order")
+        raise HTTPException(
+            status_code=403, detail="Not authorized to access this order"
+        )
     return get_orders_by_user(user_id)
 
 
@@ -163,6 +168,17 @@ async def create_new_order(
     return create_order(current_user.id, order)
 
 
+@app.post("/orders", response_model=OrderResponse, tags=["Orders"])
+async def create_order(
+    user_id: int,
+    order: OrderCreate,
+    current_user: UserInDB = Depends(get_current_active_user),
+):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized to create an order")
+    return create_order(user_id, order)
+
+
 @app.get("/orders/{order_id}", response_model=OrderResponse, tags=["Orders"])
 async def read_order(
     order_id: int, current_user: UserInDB = Depends(get_current_active_user)
@@ -171,14 +187,16 @@ async def read_order(
     Get a specific order by ID.
 
     - **order_id**: The ID of the order to retrieve
-    
+
     Note: Users can only access their own orders. Admin users can access any order.
     """
     order = get_order_by_id(order_id)
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     if order.user_id != current_user.id and current_user.role != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized to access this order")
+        raise HTTPException(
+            status_code=403, detail="Not authorized to access this order"
+        )
     return order
 
 
@@ -190,7 +208,7 @@ async def cancel_order(
     Cancel a specific order.
 
     - **order_id**: The ID of the order to cancel
-    
+
     Notes:
     - Users can only cancel their own orders
     - Admin users can cancel any order
@@ -200,14 +218,17 @@ async def cancel_order(
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     if order.user_id != current_user.id and current_user.role != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized to cancel this order")
+        raise HTTPException(
+            status_code=403, detail="Not authorized to cancel this order"
+        )
     if order.status == "delivered":
         raise HTTPException(status_code=400, detail="Cannot cancel a delivered order")
-    
+
     updated_order = update_order_status(order_id, "cancelled")
     if not updated_order:
         raise HTTPException(status_code=500, detail="Failed to update order status")
     return updated_order
+
 
 @app.delete("/products/{product_id}", response_model=ProductResponse, tags=["Products"])
 async def delete_product(
@@ -224,8 +245,12 @@ async def delete_product(
     all_orders = get_all_orders()
     for order in all_orders:
         if product_id in [item.id for item in order.items]:
-            raise HTTPException(status_code=400, detail="Cannot delete a product that has been ordered")
+            raise HTTPException(
+                status_code=400, detail="Cannot delete a product that has been ordered"
+            )
     if current_user.role != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized to delete this product")
+        raise HTTPException(
+            status_code=403, detail="Not authorized to delete this product"
+        )
     delete_product_by_id(product_id)
     return product

@@ -140,6 +140,37 @@ The API comes with several products. Here are two examples:
    - Price: $129.99
    - Description: Bluetooth headphones with noise cancellation and 20-hour battery life
 
+## Candidate Solution
+
+The candidate solution should be implemented in the `candidate_solution/` directory. The main requirement is to create a function that processes chat messages and provides appropriate responses within the e-commerce customer service context.
+
+The chat function must be able to handle the following e-commerce operations:
+
+1. Order Management:
+   - List all orders for the current customer
+   - Show details of a specific order by ID
+   - Cancel a specific order
+   - Create new orders
+
+2. Product Information:
+   - List all available products
+   - Show specific product details
+
+### Constraints
+
+- The function must stay within the context of e-commerce customer service
+- The function should maintain a conversational yet professional tone
+- Responses should be clear and provide necessary information for the user to take action
+
+### Example Interactions
+
+The function should be able to handle natural language requests such as:
+- "Show me my orders"
+- "I want to see details for order #123"
+- "Can you help me cancel order #456?"
+- "I'd like to place a new order"
+- "What products do you have available?"
+
 ## Example Usage
 
 1. First, get a JWT token by logging in:
@@ -186,8 +217,4 @@ The API comes with several products. Here are two examples:
    curl "http://localhost:8000/products/1" \
    -H "Authorization: Bearer $JWT_TOKEN"
    ```
-
-## Candidate Solution
-
-Place your solution code in the `candidate_solution/` directory.
 

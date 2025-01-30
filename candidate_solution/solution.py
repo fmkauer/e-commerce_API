@@ -1,16 +1,17 @@
 from typing import List
 from openai import OpenAI
 import os
+from src.schemas import ChatMessage
 
 
-def generate_answer(user_id: int, messages: List[dict]) -> List[dict]:
-    if messages[0]["role"] != "system":
+def generate_answer(user_id: int, messages: List[ChatMessage]) -> List[ChatMessage]:
+    if messages[0].role != "system":
         messages.insert(
             0,
-            {
-                "role": "system",
-                "content": "You are a helpful customer support agent of an e-commerce website.",
-            },
+            ChatMessage(
+                role="system",
+                content="You are a helpful customer support agent of an e-commerce website.",
+            ),
         )
     client = OpenAI(
         api_key=os.getenv("API_KEY"),
@@ -21,10 +22,10 @@ def generate_answer(user_id: int, messages: List[dict]) -> List[dict]:
         messages=messages,
     )
     messages.append(
-        {
-            "role": "assistant",
-            "content": response.choices[0].message.content,
-        }
+        ChatMessage(
+            role="assistant",
+            content=response.choices[0].message.content,
+        )
     )
     return messages
 
@@ -41,4 +42,4 @@ if __name__ == "__main__":
             break
         messages.append({"role": "user", "content": message})
         messages = generate_answer(user_id, messages)
-        print("Assistant: ", messages[-1]["content"])
+        print("Assistant: ", messages[-1].content)

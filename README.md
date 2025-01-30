@@ -54,7 +54,7 @@ A mock e-commerce API built with FastAPI that simulates a simple order managemen
 
 3. Install project dependencies using Poetry:
    ```bash
-   poetry install
+   poetry install --with test
    ```
 
 ## Running the API
@@ -93,11 +93,22 @@ Once the server is running, you can access:
 ### Authentication
 - `POST /login` - Authenticate user and get JWT token
 
+### Products
+- `GET /products` - Get all available products
+- `GET /products/{product_id}` - Get a specific product by ID
+- `POST /products` - Create a new product (admin only)
+- `DELETE /products/{product_id}` - Delete a specific product (admin only)
+
 ### Orders
-- `GET /orders` - Get all orders for the current user
-- `POST /orders` - Create a new order
+- `GET /orders` - Get all orders for the current user (admin can see all orders)
 - `GET /orders/{order_id}` - Get a specific order by ID
+- `POST /orders` - Create a new order for the current user
 - `POST /orders/{order_id}/cancel` - Cancel a specific order
+- `GET /user_orders` - Get all orders for a specific user (admin only)
+- `POST /create_order` - Create an order for a specific user (admin only)
+
+### Chat
+- `POST /chat` - Chat interaction endpoint
 
 ## Mock Users
 

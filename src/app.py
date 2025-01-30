@@ -33,7 +33,9 @@ from .schemas import (
     ProductResponse,
     Token,
     UserInDB,
+    ChatMessage,
 )
+from candidate_solution.solution import generate_answer
 
 
 @asynccontextmanager
@@ -254,3 +256,11 @@ async def delete_product(
         )
     delete_product_by_id(product_id)
     return product
+
+
+@app.post("/chat", response_model=List[ChatMessage], tags=["Chat"])
+async def chat(
+    user_id: int,
+    messages: List[ChatMessage],
+):
+    return generate_answer(user_id, messages)  #  use candidate_solution/solution.py

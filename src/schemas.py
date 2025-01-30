@@ -1,9 +1,10 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Literal
 
 from pydantic import BaseModel, EmailStr, Field
 
 from .models import OrderStatus, UserRole
+from openai.types.chat import ChatCompletionMessage
 
 
 class UserBase(BaseModel):
@@ -68,3 +69,7 @@ class OrderResponse(BaseModel):
     updated_at: Optional[datetime] = None
     delivery_date: Optional[datetime] = None
     products: Optional[List[ProductResponse]] = None
+
+
+class ChatMessage(ChatCompletionMessage):
+    role: Literal["user", "assistant", "system", "tool"]

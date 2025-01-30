@@ -26,7 +26,8 @@ poetry.lock
 *.swo
 
 # Project specific
-tests/
 Plan.md
 *.log 
 .ruff_cache/
+candidate_solution/templates/
+.coverage

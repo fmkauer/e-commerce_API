@@ -1,14 +1,7 @@
 from datetime import UTC, datetime, timedelta
 
-from passlib.context import CryptContext
-
 from .models import Item, OrderStatus, Product
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
-def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+from .security import get_password_hash
 
 
 # Create mock product using the Product model

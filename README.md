@@ -59,12 +59,7 @@ A mock e-commerce API built with FastAPI that simulates a simple order managemen
 
 ## Running the API
 
-1. Activate the virtual environment:
-   ```bash
-   poetry shell
-   ```
-
-2. Start the server:
+1. Start the server:
    ```bash
    uvicorn src.app:app --reload
    ```
@@ -118,11 +113,11 @@ The API comes with three pre-configured users:
    - Username: admin
    - Password: admin123
 
-2. Regular User 1
+2. Regular User 2
    - Username: johndoe
    - Password: password123
 
-3. Regular User 2
+3. Regular User 3
    - Username: sarahs
    - Password: userpass456
 

@@ -24,6 +24,7 @@ from .database import (
     init_db,
     update_order_status,
     delete_product_by_id,
+    get_user_by_id,
 )
 from .models import Order, Product, User
 from .schemas import (
@@ -34,6 +35,7 @@ from .schemas import (
     Token,
     UserInDB,
     ChatMessage,
+    UserResponse,
 )
 from candidate_solution.solution import generate_answer
 
@@ -264,3 +266,26 @@ async def chat(
     messages: List[ChatMessage],
 ):
     return generate_answer(user_id, messages)  #  use candidate_solution/solution.py
+
+
+@app.get("/user/{user_id}", response_model=UserResponse, tags=["Users"])
+async def get_user(
+    user_id: int, current_user: UserInDB = Depends(get_current_active_user)
+):
+    """
+    Get user information by ID.
+
+    - **user_id**: The ID of the user to retrieve
+
+    Note: Regular users can only access their own information. Admin users can access any user's information.
+    """
+    if current_user.id != user_id and current_user.role != "admin":
+        raise HTTPException(
+            status_code=403, detail="Not authorized to access this user's information"
+        )
+
+    user = get_user_by_id(user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return user

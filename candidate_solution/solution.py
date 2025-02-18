@@ -26,7 +26,6 @@ def get_user_info(user_id: int) -> Dict[str, Any]:
     # For demonstration, we'll use a hardcoded token. In production, you should handle authentication properly
     jwt_token = get_jwt_token("admin", "admin123")
     user_data = get_user_by_id(user_id, jwt_token)
-    print(user_data)
     return {"username": user_data["username"], "email": user_data["email"]}
 
 
@@ -36,7 +35,7 @@ def generate_answer(user_id: int, messages: List[ChatMessage]) -> List[ChatMessa
             0,
             ChatMessage(
                 role="system",
-                content="You are a helpful customer support agent of an e-commerce website. You have access to user information through the get_user_info tool.",
+                content=f"You are a helpful customer support agent of an e-commerce website. You have access to user information through the get_user_info tool. The user_id is {user_id}",
             ),
         )
 

@@ -52,7 +52,12 @@ A mock e-commerce API built with FastAPI that simulates a simple order managemen
    pip install poetry
    ```
 
-3. Install project dependencies using Poetry:
+6. Configure environment variables:
+   ```bash
+   # Copy the environment template file
+   # Edit the .env file and replace XXXXXXXXXX with your actual API key
+
+7. Install project dependencies using Poetry:
    ```bash
    poetry install --with test
    ```
@@ -137,34 +142,50 @@ The API comes with several products. Here are two examples:
 
 ## Candidate Solution
 
-The candidate solution should be implemented in the `candidate_solution/` directory. The main requirement is to create a function that processes chat messages and provides appropriate responses within the e-commerce customer service context.
+The candidate solution should be implemented in the `candidate_solution/` directory following these sequential steps:
 
-The chat function must be able to handle the following e-commerce operations:
+### Step 1: FAQ-based RAG Implementation
+- Implement a Retrieval-Augmented Generation (RAG) system using the provided FAQ markdown file
+- The system should:
+  - Process and index the FAQ content
+  - Match user queries with relevant FAQ sections
+  - Generate contextually appropriate responses based on the matched FAQ content
+  - Maintain conversation coherence while staying within the FAQ knowledge boundaries
 
-1. Order Management:
-   - List all orders for the current customer
-   - Show details of a specific order by ID
-   - Cancel a specific order
-   - Create new orders
+### Step 2: Order and Product Listing
+- Implement functionality to:
+  - List all orders for the current user
+  - Display order details including status, items, and total
+  - List available products with their details
+  - Include proper error handling for invalid requests
+  - Maintain conversation context while switching between orders and products
 
-2. Product Information:
-   - List all available products
-   - Show specific product details
+### Step 3: Order Cancellation
+- Implement order cancellation functionality:
+  - Verify order ownership and eligibility for cancellation
+  - Process cancellation requests
+  - Provide confirmation and status updates
+  - Handle edge cases (already cancelled orders, non-existent orders)
+  - Maintain proper error messaging
 
-### Constraints
+### Step 4: Order Creation
+- Implement new order creation:
+  - Guide users through product selection
+  - Handle quantity specifications
+  - Process the order creation
+  - Provide order confirmation with details
+  - Include input validation and error handling
 
-- The function must stay within the context of e-commerce customer service
-- The function should maintain a conversational yet professional tone
-- Responses should be clear and provide necessary information for the user to take action
+### Implementation Requirements
+- Maintain conversation context throughout the interaction
+- Implement proper error handling and user feedback
+- Follow REST API best practices
 
-### Example Interactions
-
-The function should be able to handle natural language requests such as:
-- "Show me my orders"
-- "I want to see details for order #123"
-- "Can you help me cancel order #456?"
-- "I'd like to place a new order"
-- "What products do you have available?"
+### Expected Interaction Flow
+1. User query is first matched against FAQ content
+2. If the query requires specific actions (listing, cancellation, creation), the appropriate module handles it
+3. System maintains context and can handle follow-up questions
+4. All interactions should be natural and conversational while being accurate and efficient
 
 ## Example Usage
 

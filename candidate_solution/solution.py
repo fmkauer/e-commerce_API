@@ -3,6 +3,7 @@ from openai import OpenAI
 import os
 from src.schemas import ChatMessage
 import requests
+from dotenv import load_dotenv
 
 
 def get_jwt_token(username: str, password: str):
@@ -114,6 +115,7 @@ def generate_answer(user_id: int, messages: List[ChatMessage]) -> List[ChatMessa
 
 
 if __name__ == "__main__":
+    load_dotenv()
     user_id = None
     messages = []
     while True:
